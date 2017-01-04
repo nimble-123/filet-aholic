@@ -2,8 +2,7 @@ var Amount = require('./models/amount');
 var User = require('./models/user');
 
 function getAmounts(res) {
-	Amount.find(function (err, amounts) {
-
+	Amount.find().lean().exec(function (err, amounts) {
 		// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 		if (err) {
 			res.send(err);
@@ -34,7 +33,7 @@ module.exports = function (app) {
 
 	// get a user by username
 	app.get('/api/users/:username', function (req, res) {
-		// return all users saved in db
+		// return a user saved in db
 		User.find({username: req.params.username}, function(err, user) {
 			if (err) {
 				res.send(err);
@@ -74,15 +73,15 @@ module.exports = function (app) {
 
 	// create amount and send back all amounts after creation
 	app.post('/api/amounts', function (req, res) {
-
 		// create a amount, information comes from AJAX request from Angular
 		Amount.create({
-			user: req.body.user,
+			userId: req.body.user._id,
 			type: req.body.type,
 			amount: req.body.amount
 		}, function (err, amount) {
-			if (err)
-			res.send(err);
+			if (err) {
+        res.send(err);
+      }
 
 			// get and return all the amounts after you create another
 			getAmounts(res);

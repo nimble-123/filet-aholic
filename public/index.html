@@ -28,6 +28,7 @@
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/services/amounts.js"></script> <!-- load our amount service -->
+  <script src="js/services/users.js"></script> <!-- load our amount service -->
 	<script src="js/core.js"></script> <!-- load our main application -->
 
 </head>
@@ -49,7 +50,7 @@
 					<table class="table table-hover table-striped table-condensed ">
 						<tr>
 							<th class="text-center">#</th>
-							<th class="text-left">Name</th>
+							<th class="text-left">Username</th>
 							<th class="text-left">Type</th>
 							<th class="text-right">Amount</th>
 							<th class="text-center">Remove</th>
@@ -57,7 +58,7 @@
 						</tr>
 						<tr ng-repeat="amount in amounts">
 							<td class="text-center">{{ $index + 1 }}</td>
-							<td class="text-left">{{ amount.user }}</td>
+							<td class="text-left">{{ amount.userId }}</td>
 							<td class="text-left">{{ amount.type }}</td>
 							<td class="text-right">{{ amount.amount }}g</td>
 							<td class="text-center"><button type="button" class="btn btn-xs btn-danger" ng-click="deleteAmount(amount._id)"><span class="glyphicon glyphicon-remove-circle"></span></button></td>
@@ -90,7 +91,7 @@
 
 						<!-- BIND THIS VALUE TO formData.user IN ANGULAR -->
 						<label for="user">Name:</label>
-						<select id="user" class="form-control input-lg text-right" ng-model="formData.user" ng-init="formData.user = users[0]" ng-options="user.username for user in users">
+						<select id="user" class="form-control input-lg text-right" ng-model="formData.user" ng-init="formData.user = users[0]" ng-options="user.username for user in users track by user._id">
 						</select>
 
 						<!-- BIND THIS VALUE TO formData.type IN ANGULAR -->
