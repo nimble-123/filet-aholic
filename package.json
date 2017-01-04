@@ -1,0 +1,15 @@
+{
+  "name": "filetApp",
+  "version": "0.0.1",
+  "description": "Simple filet amount counting app for different users",
+  "main": "server.js",
+  "author": "nlsltz",
+  "dependencies": {
+    "angular-chart.js": "^1.1.1",
+    "body-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "method-override": "^2.1.3",
+    "mongoose": "^4.4.12",
+    "morgan": "^1.1.1"
+  }
+}

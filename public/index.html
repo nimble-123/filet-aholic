@@ -1,0 +1,127 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="filetApp">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Filet Amount Counter</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+	html 					{ overflow-y:scroll; }
+	body 					{ padding-top:50px; }
+	#amount-list 				{ margin-bottom:30px; }
+	#amount-chart				{ margin-bottom:30px; }
+	#amount-form 	 			{ margin-bottom:50px; }
+	</style>
+
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+
+	<script src="js/Chart.min.js"></script>
+	<script src="js/angular-chart.min.js"></script>
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/services/amounts.js"></script> <!-- load our amount service -->
+	<script src="js/core.js"></script> <!-- load our main application -->
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController">
+	<div class="container">
+
+		<!-- HEADER AND AMOUNT COUNT -->
+		<div class="jumbotron text-center">
+			<h1>I'm a Filet-aholic <span class="label label-info">{{ amounts.length }}</span></h1>
+		</div>
+
+		<!-- AMOUNT LIST -->
+		<div id="amount-list" class="row">
+			<div class="col-sm-4 col-sm-offset-4">
+
+				<!-- LOOP OVER THE AMOUNT IN $scope.amounts -->
+				<div class="table-responsive">
+					<table class="table table-hover table-striped table-condensed ">
+						<tr>
+							<th class="text-center">#</th>
+							<th class="text-left">Name</th>
+							<th class="text-left">Type</th>
+							<th class="text-right">Amount</th>
+							<th class="text-center">Remove</th>
+							<th class="text-center">Check</th>
+						</tr>
+						<tr ng-repeat="amount in amounts">
+							<td class="text-center">{{ $index + 1 }}</td>
+							<td class="text-left">{{ amount.user }}</td>
+							<td class="text-left">{{ amount.type }}</td>
+							<td class="text-right">{{ amount.amount }}g</td>
+							<td class="text-center"><button type="button" class="btn btn-xs btn-danger" ng-click="deleteAmount(amount._id)"><span class="glyphicon glyphicon-remove-circle"></span></button></td>
+							<td class="text-center"><input type="checkbox"></td>
+						</tr>
+					</table>
+				</div>
+
+				<p class="text-center" ng-show="loading">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+				</p>
+
+			</div>
+		</div>
+
+		<!-- AMOUNT CHART -->
+		<div id="amount-chart" class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-options="chartOptions"></canvas>
+
+			</div>
+		</div>
+
+		<!-- FORM TO CREATE AMOUNT -->
+		<div id="amount-form" class="row">
+			<div class="col-sm-4 col-sm-offset-4">
+				<form>
+					<div class="form-group">
+
+						<!-- BIND THIS VALUE TO formData.user IN ANGULAR -->
+						<label for="user">Name:</label>
+						<select id="user" class="form-control input-lg text-right" ng-model="formData.user" ng-init="formData.user = users[0]" ng-options="user.username for user in users">
+						</select>
+
+						<!-- BIND THIS VALUE TO formData.type IN ANGULAR -->
+						<label for="user">Type:</label>
+						<select id="type" class="form-control input-lg text-right" ng-model="formData.type" ng-init="formData.type = types[0]" ng-options="type for type in types">
+						</select>
+
+						<!-- BIND THIS VALUE TO formData.amount IN ANGULAR -->
+						<label for="amount">Amount:</label>
+						<div class="input-group">
+							<span class="input-group-addon">g</span>
+							<input id="amount" type="number" step="10" min="100" class="form-control input-lg text-right" placeholder="How much did you eat?" ng-model="formData.amount">
+						</div>
+
+					</div>
+
+					<!-- createAmount() WILL CREATE NEW AMOUNT -->
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createAmount()">Add Entry</button>
+
+					<!-- deleteCheckedAmounts() WILL DELETE CHECKED AMOUNTS -->
+					<button type="submit" class="btn btn-danger btn-lg" ng-click="deleteCheckedAmounts()">Delete checked</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- <div class="text-center text-muted">
+		<p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
+		<p>Read the <a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular">tutorial</a>.</p>
+	</div> -->
+
+</div>
+
+</body>
+</html>
